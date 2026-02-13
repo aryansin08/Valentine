@@ -80,10 +80,10 @@ button{
   background:black;
   z-index:9999;
   display:none;
-
   display:flex;
   justify-content:center;
   align-items:center;
+  overflow:hidden;
 }
 
 #photoMontage img{
@@ -92,14 +92,13 @@ button{
   max-height:85%;
   object-fit:contain;
   opacity:0;
-  animation:fadeMontage 67s linear forwards;
+  animation:fadeImg 6.7s ease-in-out infinite;
 }
 
-@keyframes fadeMontage{
+@keyframes fadeImg{
   0%{opacity:0}
-  2%{opacity:1}
-  8.5%{opacity:1}
-  10.5%{opacity:0}
+  15%{opacity:1}
+  85%{opacity:1}
   100%{opacity:0}
 }
 
