@@ -3,119 +3,121 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>For You ❤️</title>
+<title>Will You Be My Valentine? ❤️</title>
 
 <style>
 body {
   margin: 0;
   font-family: 'Comic Sans MS', cursive;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  text-align: center;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
   color: white;
+  text-align: center;
+  overflow: hidden;
 }
 
 .screen {
-  display: none;
   height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.active {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 28px;
 }
 
 button {
-  padding: 15px 25px;
-  font-size: 18px;
+  padding: 15px 30px;
+  font-size: 20px;
   border: none;
-  border-radius: 25px;
-  margin-top: 20px;
+  border-radius: 30px;
+  margin: 15px;
+  transition: all 0.3s ease;
+}
+
+#yesBtn {
   background: white;
   color: #ff4e50;
   font-weight: bold;
-  z-index: 20;
+}
+
+#noBtn {
+  background: black;
+  color: white;
+  position: absolute;
 }
 
 .heart {
-  position: absolute;
-  font-size: 32px;
-  cursor: pointer;
-  animation: floatUp 4s linear forwards;
+  position: fixed;
+  font-size: 24px;
+  animation: float 4s linear infinite;
+  opacity: 0.8;
 }
 
-@keyframes floatUp {
-  from { bottom: -50px; }
-  to { bottom: 110%; }
+@keyframes float {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-10vh); }
 }
 </style>
 </head>
 
 <body>
 
-<div id="screen1" class="screen active">
-  <h1>Hey You ❤️</h1>
-  <p>I made something for you...</p>
-  <button id="startBtn">Tap me 😌</button>
+<div id="page1" class="screen">
+  <h1>Will you be my Valentine? 🌹</h1>
+  <button id="yesBtn">YES ❤️</button>
+  <button id="noBtn">No 🙈</button>
 </div>
 
-<div id="screen2" class="screen">
-  <h1>Catch 5 hearts 💖</h1>
-  <p>Hearts caught: <span id="count">0</span>/5</p>
-</div>
-
-<div id="screen3" class="screen">
-  <h1>💖 Surprise! 💖</h1>
-  <p>You make my world brighter every day.</p>
-  <h2>Will you be my Valentine? 🌹</h2>
-  <button onclick="celebrate()">YESSS ❤️</button>
+<div id="page2" class="screen" style="display:none;">
+  <h1>You just made me the happiest person alive 💖</h1>
+  <p>
+    I promise you laughter, random food dates, long talks,<br>
+    and a lifetime of annoying you with love 😌
+  </p>
+  <h2>Happy Valentine’s Day, my love ❤️</h2>
 </div>
 
 <script>
-let count = 0;
-let interval;
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+let scale = 1;
 
-document.getElementById("startBtn").addEventListener("click", startGame);
+function moveNoButton() {
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 
-function startGame() {
-  document.getElementById('screen1').classList.remove('active');
-  const s2 = document.getElementById('screen2');
-  s2.classList.add('active');
-  spawnHearts(s2);
+  scale -= 0.1;
+  noBtn.style.transform = `scale(${scale})`;
+
+  if (scale <= 0.2) {
+    noBtn.style.display = "none";
+  }
 }
 
-function spawnHearts(container) {
-  interval = setInterval(() => {
-    if (count >= 5) {
-      clearInterval(interval);
-      container.classList.remove('active');
-      document.getElementById('screen3').classList.add('active');
-      return;
-    }
+noBtn.addEventListener("click", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 90 + 'vw';
+yesBtn.addEventListener("click", () => {
+  document.getElementById("page1").style.display = "none";
+  document.getElementById("page2").style.display = "flex";
+  startHearts();
+});
 
-    heart.addEventListener("click", () => {
-      heart.remove();
-      count++;
-      document.getElementById('count').innerText = count;
-    });
-
-    container.appendChild(heart);
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 4000);
-
-  }, 800);
-}
-
-function celebrate() {
-  alert("Yay! Best decision ever 😍");
+  }, 300);
 }
 </script>
 
