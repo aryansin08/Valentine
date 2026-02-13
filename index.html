@@ -9,32 +9,63 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
 body{
-  background:linear-gradient(135deg,#fff1f5,#fde2e4);
-  overflow:hidden;height:100vh;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#e2e8f0;
+  height:100vh;
+  overflow:hidden;
 }
+
 .screen{
-  display:none;height:100vh;width:100vw;
+  display:none;
+  height:100vh;width:100vw;
   justify-content:center;align-items:center;
-  text-align:center;padding:30px;flex-direction:column;
+  text-align:center;padding:30px;
+  flex-direction:column;
 }
 .active{display:flex;}
+
 h1{
   font-family:'Playfair Display',serif;
-  font-size:28px;color:#b5838d;margin-bottom:20px;
+  font-size:30px;
+  margin-bottom:20px;
+  color:#f8fafc;
 }
-p{color:#6d6875;font-size:16px;line-height:1.6;margin-bottom:25px;}
+
+p{
+  font-size:16px;
+  line-height:1.7;
+  max-width:340px;
+  color:#cbd5e1;
+  margin-bottom:25px;
+}
+
 button{
-  padding:12px 26px;border-radius:25px;border:none;
-  background:#ff8fab;color:white;font-size:16px;margin:10px;
+  padding:12px 26px;
+  border-radius:30px;
+  border:none;
+  background:#38bdf8;
+  color:#0f172a;
+  font-weight:600;
+  font-size:16px;
+  margin:10px;
   transition:all .3s ease;
 }
-button:hover{transform:scale(1.05);}
+
+button:hover{transform:scale(1.06);}
+
 #noBtn{position:relative;}
-.heart{font-size:60px;cursor:pointer;transition:transform .2s;}
-.fade-in{animation:fade 1.2s ease forwards;}
+
+.heart{
+  font-size:70px;
+  cursor:pointer;
+  transition:transform .2s;
+}
+
+.fade{animation:fade 1.2s ease;}
 @keyframes fade{
-  from{opacity:0;transform:translateY(10px);}
+  from{opacity:0;transform:translateY(15px);}
   to{opacity:1;transform:translateY(0);}
 }
 </style>
@@ -46,21 +77,22 @@ button:hover{transform:scale(1.05);}
 <div id="page1" class="screen active">
   <h1>Sheena, will you be my Valentine? 🌹</h1>
   <div>
-    <button onclick="startExperience()">Yes ❤️</button>
+    <button onclick="goToPage2()">Yes ❤️</button>
     <button id="noBtn">No</button>
   </div>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="screen">
-  <h1 class="fade-in">Tap my heart 4 times 💖</h1>
+  <h1 class="fade">Tap my heart 4 times 💖</h1>
   <div class="heart" onclick="tapHeart()">❤️</div>
 </div>
 
 <!-- PAGE 3 -->
 <div id="page3" class="screen">
-  <h1 class="fade-in">Sheena ❤️</h1>
-  <p class="fade-in">
+  <h1 class="fade">Sheena ❤️</h1>
+
+  <p class="fade">
     4 years ago, our story quietly began.  
     And in just 2 months, we begin the next chapter — as husband and wife.
     <br><br>
@@ -71,7 +103,7 @@ button:hover{transform:scale(1.05);}
     I want every Valentine’s Day for the rest of my life.
   </p>
 
-  <p style="margin-top:10px;">
+  <p>
     Here's something from my heart. I hope it reaches yours. I love you.
   </p>
 
@@ -97,8 +129,7 @@ noBtn.addEventListener('click',()=>{
   if(scale<=0.2){ noBtn.style.display='none'; }
 });
 
-function startExperience(){
-  // required user interaction to allow audio later
+function goToPage2(){
   document.getElementById('page1').classList.remove('active');
   document.getElementById('page2').classList.add('active');
 }
@@ -109,14 +140,7 @@ function tapHeart(){
   if(taps>=4){
     document.getElementById('page2').classList.remove('active');
     document.getElementById('page3').classList.add('active');
-    autoPlaySong();
   }
-}
-
-function autoPlaySong(){
-  const song=document.getElementById('loveSong');
-  song.volume=0.7;
-  song.play();
 }
 
 function playSong(){
@@ -125,4 +149,3 @@ function playSong(){
 </script>
 
 </body>
-</html>
