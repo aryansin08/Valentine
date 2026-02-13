@@ -100,4 +100,24 @@ function spawnHearts(container) {
     const heart = document.createElement('div');
     heart.className = 'heart';
     heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 90 + 'vw';*
+    heart.style.left = Math.random() * 90 + 'vw';
+
+    heart.addEventListener("click", () => {
+      heart.remove();
+      count++;
+      document.getElementById('count').innerText = count;
+    });
+
+    container.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+
+  }, 800);
+}
+
+function celebrate() {
+  alert("Yay! Best decision ever 😍");
+}
+</script>
+
+</body>
+</html>
