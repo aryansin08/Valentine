@@ -4,14 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>For You ❤️</title>
+
 <style>
 body {
   margin: 0;
   font-family: 'Comic Sans MS', cursive;
   background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  overflow: hidden;
   text-align: center;
   color: white;
+  overflow: hidden;
 }
 
 .screen {
@@ -19,6 +20,7 @@ body {
   height: 100vh;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .active {
@@ -41,27 +43,29 @@ button {
 
 .heart {
   position: absolute;
-  font-size: 30px;
-  animation: float 4s linear infinite;
+  font-size: 32px;
+  cursor: pointer;
+  animation: floatUp 4s linear forwards;
+  z-index: 10;
 }
 
-@keyframes float {
-  0% { transform: translateY(100vh); }
-  100% { transform: translateY(-10vh); }
+@keyframes floatUp {
+  from { bottom: -50px; }
+  to { bottom: 110%; }
 }
 </style>
 </head>
+
 <body>
 
 <div id="screen1" class="screen active">
   <h1>Hey You ❤️</h1>
   <p>I made something for you...</p>
-  <button onclick="nextScreen(2)">Tap me 😌</button>
+  <button onclick="nextScreen()">Tap me 😌</button>
 </div>
 
 <div id="screen2" class="screen">
-  <h1>But first…</h1>
-  <p>Catch 5 hearts to unlock the surprise!</p>
+  <h1>Catch 5 hearts 💖</h1>
   <p>Hearts caught: <span id="count">0</span>/5</p>
 </div>
 
@@ -74,39 +78,18 @@ button {
 
 <script>
 let count = 0;
+let interval;
 
-function nextScreen(n) {
+function nextScreen() {
   document.getElementById('screen1').classList.remove('active');
-  document.getElementById('screen2').classList.add('active');
-  spawnHearts();
+  const s2 = document.getElementById('screen2');
+  s2.classList.add('active');
+  spawnHearts(s2);
 }
 
-function spawnHearts() {
-  let interval = setInterval(() => {
+function spawnHearts(container) {
+  interval = setInterval(() => {
     if (count >= 5) {
       clearInterval(interval);
-      document.getElementById('screen2').classList.remove('active');
+      container.classList.remove('active');
       document.getElementById('screen3').classList.add('active');
-      return;
-    }
-    let heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 90 + 'vw';
-    heart.onclick = () => {
-      heart.remove();
-      count++;
-      document.getElementById('count').innerText = count;
-    };
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
-  }, 800);
-}
-
-function celebrate() {
-  alert("Yay! Best decision ever 😍");
-}
-</script>
-
-</body>
-</html>
