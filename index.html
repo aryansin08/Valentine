@@ -3,93 +3,81 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>For You ❤️</title>
+<title>For Sheena ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg1: #0f1020;
-  --bg2: #1b1d3a;
-  --accent: #ff6b81;
-  --soft: #f7f7fb;
+:root{
+  --bg1:#0f1020;
+  --bg2:#1b1d3a;
+  --accent:#ff6b81;
+  --text:#f7f7fb;
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box;margin:0;padding:0}
 
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-  color: var(--soft);
-  overflow: hidden;
+body{
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,var(--bg2),var(--bg1));
+  color:var(--text);
+  overflow:hidden;
 }
 
-.screen {
-  height: 100vh;
-  padding: 32px;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.screen{
+  height:100vh;
+  padding:32px;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
 }
 
-.active { display: flex; }
+.active{display:flex}
 
-h1 { font-weight: 600; letter-spacing: 0.5px; }
-p { opacity: 0.85; max-width: 320px; }
+h1{font-weight:600;margin-bottom:20px}
+p{opacity:.85;max-width:340px;line-height:1.6}
 
-button {
-  margin: 12px;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s ease;
+button{
+  margin:12px;
+  padding:14px 28px;
+  font-size:16px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  transition:.3s ease;
 }
 
-#yesBtn {
-  background: var(--accent);
-  color: white;
-  box-shadow: 0 10px 25px rgba(255,107,129,0.4);
+#yesBtn{
+  background:var(--accent);
+  color:white;
+  box-shadow:0 10px 25px rgba(255,107,129,.4);
 }
 
-#yesBtn:hover { transform: translateY(-2px); }
-
-#noBtn {
-  background: transparent;
-  color: var(--soft);
-  border: 1px solid rgba(255,255,255,0.3);
-  position: absolute;
+#noBtn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.3);
+  color:white;
+  position:absolute;
 }
 
-.counter {
-  margin-top: 12px;
-  font-size: 14px;
-  opacity: 0.8;
+.counter{
+  margin-top:10px;
+  font-size:14px;
+  opacity:.8;
 }
 
-.heart {
-  position: absolute;
-  font-size: 28px;
-  animation: float 4s linear forwards;
-  cursor: pointer;
+.heart{
+  position:absolute;
+  font-size:28px;
+  animation:float 4s linear forwards;
+  cursor:pointer;
 }
 
-@keyframes float {
-  from { bottom: -60px; opacity: 0; }
-  to { bottom: 110%; opacity: 1; }
-}
-
-.fade-in {
-  animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes float{
+  from{bottom:-60px;opacity:0}
+  to{bottom:110%;opacity:1}
 }
 </style>
 </head>
@@ -98,7 +86,7 @@ button {
 
 <!-- PAGE 1 -->
 <div id="page1" class="screen active">
-  <h1>Will you be my Valentine?</h1>
+  <h1>Sheena, will you be my Valentine? 🌹</h1>
   <div>
     <button id="yesBtn">Yes, obviously ❤️</button>
     <button id="noBtn">No</button>
@@ -107,21 +95,27 @@ button {
 
 <!-- GAME PAGE -->
 <div id="gamePage" class="screen">
-  <h1 class="fade-in">Tap 7 hearts to unlock something 💖</h1>
+  <h1>Tap 7 hearts to unlock something 💖</h1>
   <div class="counter">Hearts tapped: <span id="score">0</span>/7</div>
 </div>
 
 <!-- FINAL PAGE -->
 <div id="finalPage" class="screen">
-  <h1 class="fade-in">You just made my day infinitely better ✨</h1>
-  <p class="fade-in">
-    Here’s to laughter, chaos, food dates, deep talks,  
-    and a lifetime of us.
+  <h1>Sheena ❤️</h1>
+
+  <p>
+    4 years ago, our story quietly began.  
+    And in just 2 months, we begin the next chapter — as husband and wife.
+    <br><br>
+    Through every laugh, every silly moment, every long talk,  
+    you became my safest place, my favourite person, my home.
+    <br><br>
+    I don’t just want this Valentine’s Day with you…  
+    I want every Valentine’s Day for the rest of my life.
   </p>
 
-  <!-- YOUR SONG -->
   <audio id="loveSong" loop>
-    <source src="PASTE_MP3_LINK_HERE" type="audio/mpeg">
+    <source src="PASTE_YOUR_MP3_LINK_HERE" type="audio/mpeg">
   </audio>
 
   <button onclick="document.getElementById('loveSong').play()">
@@ -130,57 +124,57 @@ button {
 </div>
 
 <script>
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
+const yesBtn=document.getElementById('yesBtn');
+const noBtn=document.getElementById('noBtn');
 
-let scale = 1;
-noBtn.addEventListener('click', moveNo);
-noBtn.addEventListener('touchstart', moveNo);
+let scale=1;
+noBtn.addEventListener('click',moveNo);
+noBtn.addEventListener('touchstart',moveNo);
 
-function moveNo() {
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 60);
-  noBtn.style.left = x + 'px';
-  noBtn.style.top = y + 'px';
-  scale -= 0.1;
-  noBtn.style.transform = `scale(${scale})`;
-  if (scale < 0.3) noBtn.style.display = 'none';
+function moveNo(){
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-60);
+  noBtn.style.left=x+'px';
+  noBtn.style.top=y+'px';
+  scale-=0.1;
+  noBtn.style.transform=`scale(${scale})`;
+  if(scale<0.3) noBtn.style.display='none';
 }
 
-yesBtn.addEventListener('click', startGame);
+yesBtn.addEventListener('click',startGame);
 
-let score = 0, interval;
+let score=0,interval;
 
-function startGame() {
+function startGame(){
   show('gamePage');
-  interval = setInterval(spawnHeart, 700);
+  interval=setInterval(spawnHeart,700);
 }
 
-function spawnHeart() {
-  if (score >= 7) {
+function spawnHeart(){
+  if(score>=7){
     clearInterval(interval);
     show('finalPage');
     document.getElementById('loveSong').play();
     return;
   }
 
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.innerHTML = '💖';
-  heart.style.left = Math.random() * 90 + 'vw';
+  const heart=document.createElement('div');
+  heart.className='heart';
+  heart.innerHTML='💖';
+  heart.style.left=Math.random()*90+'vw';
 
-  heart.onclick = () => {
+  heart.onclick=()=>{
     heart.remove();
     score++;
-    document.getElementById('score').innerText = score;
+    document.getElementById('score').innerText=score;
   };
 
   document.getElementById('gamePage').appendChild(heart);
-  setTimeout(() => heart.remove(), 4000);
+  setTimeout(()=>heart.remove(),4000);
 }
 
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 </script>
