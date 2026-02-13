@@ -13,15 +13,17 @@
 body{
   background:linear-gradient(135deg,#0f172a,#1e293b);
   color:#e2e8f0;
-  height:100vh;
-  overflow:hidden;
+  min-height:100svh;
 }
 
 .screen{
   display:none;
-  height:100vh;width:100vw;
-  justify-content:center;align-items:center;
-  text-align:center;padding:30px;
+  min-height:100svh;
+  width:100%;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px 24px 80px;
   flex-direction:column;
 }
 .active{display:flex;}
@@ -38,7 +40,7 @@ p{
   line-height:1.7;
   max-width:340px;
   color:#cbd5e1;
-  margin-bottom:25px;
+  margin-bottom:22px;
 }
 
 button{
@@ -49,24 +51,58 @@ button{
   color:#0f172a;
   font-weight:600;
   font-size:16px;
-  margin:10px;
+  margin-top:18px;
   transition:all .3s ease;
 }
-
 button:hover{transform:scale(1.06);}
 
 #noBtn{position:relative;}
-
-.heart{
-  font-size:70px;
-  cursor:pointer;
-  transition:transform .2s;
-}
 
 .fade{animation:fade 1.2s ease;}
 @keyframes fade{
   from{opacity:0;transform:translateY(15px);}
   to{opacity:1;transform:translateY(0);}
+}
+
+/* Floating hearts */
+#heartsContainer{
+  position:relative;
+  width:100%;
+  height:60vh;
+  overflow:hidden;
+}
+
+.floating-heart{
+  position:absolute;
+  bottom:-40px;
+  font-size:28px;
+  animation:floatUp 6s linear forwards;
+  cursor:pointer;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0); opacity:1;}
+  to{transform:translateY(-120vh); opacity:0;}
+}
+
+/* Popup */
+#noPopup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+.popup-box{
+  background:#1e293b;
+  padding:28px;
+  border-radius:16px;
+  text-align:center;
+  color:#e2e8f0;
+  max-width:280px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 </style>
 </head>
@@ -84,8 +120,8 @@ button:hover{transform:scale(1.06);}
 
 <!-- PAGE 2 -->
 <div id="page2" class="screen">
-  <h1 class="fade">Tap my heart 4 times 💖</h1>
-  <div class="heart" onclick="tapHeart()">❤️</div>
+  <h1 class="fade">Catch 4 hearts 💖</h1>
+  <div id="heartsContainer"></div>
 </div>
 
 <!-- PAGE 3 -->
@@ -116,32 +152,74 @@ button:hover{transform:scale(1.06);}
   </button>
 </div>
 
+<!-- Popup -->
+<div id="noPopup">
+  <div class="popup-box">
+    <p style="margin-bottom:18px;">
+      Hehe… Yes is the only option for you now ❤️
+    </p>
+    <button onclick="closePopup()">Okay 😌</button>
+  </div>
+</div>
+
 <script>
+// No button behavior + popup
 const noBtn=document.getElementById('noBtn');
 let scale=1;
+let noClicks=0;
 
 noBtn.addEventListener('click',()=>{
+  noClicks++;
+
   scale-=0.1;
   noBtn.style.transform=`scale(${scale})`;
   noBtn.style.position='absolute';
   noBtn.style.top=Math.random()*80+'%';
   noBtn.style.left=Math.random()*80+'%';
-  if(scale<=0.2){ noBtn.style.display='none'; }
+
+  if(noClicks>=5){
+    document.getElementById('noPopup').style.display='flex';
+  }
+
+  if(scale<=0.2){
+    noBtn.style.display='none';
+  }
 });
+
+function closePopup(){
+  document.getElementById('noPopup').style.display='none';
+}
 
 function goToPage2(){
   document.getElementById('page1').classList.remove('active');
   document.getElementById('page2').classList.add('active');
 }
 
-let taps=0;
-function tapHeart(){
-  taps++;
-  if(taps>=4){
-    document.getElementById('page2').classList.remove('active');
-    document.getElementById('page3').classList.add('active');
-  }
+// Floating hearts logic
+let heartTaps=0;
+
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.className="floating-heart";
+  heart.innerHTML="❤️";
+
+  heart.style.left=Math.random()*90+"%";
+  heart.style.fontSize=(24+Math.random()*20)+"px";
+
+  heart.onclick=()=>{
+    heart.remove();
+    heartTaps++;
+    if(heartTaps>=4){
+      document.getElementById('page2').classList.remove('active');
+      document.getElementById('page3').classList.add('active');
+    }
+  };
+
+  document.getElementById("heartsContainer").appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
 }
+
+setInterval(createHeart,900);
 
 function playSong(){
   document.getElementById('loveSong').play();
@@ -149,3 +227,4 @@ function playSong(){
 </script>
 
 </body>
+</html>
