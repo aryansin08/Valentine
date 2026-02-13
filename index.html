@@ -2,82 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For Sheena ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg1:#0f1020;
-  --bg2:#1b1d3a;
-  --accent:#ff6b81;
-  --text:#f7f7fb;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{
-  font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top,var(--bg2),var(--bg1));
-  color:var(--text);
-  overflow:hidden;
+  background:linear-gradient(135deg,#fff1f5,#fde2e4);
+  overflow:hidden;height:100vh;
 }
-
 .screen{
-  height:100vh;
-  padding:32px;
-  display:none;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+  display:none;height:100vh;width:100vw;
+  justify-content:center;align-items:center;
+  text-align:center;padding:30px;flex-direction:column;
 }
-
-.active{display:flex}
-
-h1{font-weight:600;margin-bottom:20px}
-p{opacity:.85;max-width:340px;line-height:1.6}
-
+.active{display:flex;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:28px;color:#b5838d;margin-bottom:20px;
+}
+p{color:#6d6875;font-size:16px;line-height:1.6;margin-bottom:25px;}
 button{
-  margin:12px;
-  padding:14px 28px;
-  font-size:16px;
-  border-radius:30px;
-  border:none;
-  cursor:pointer;
-  transition:.3s ease;
+  padding:12px 26px;border-radius:25px;border:none;
+  background:#ff8fab;color:white;font-size:16px;margin:10px;
+  transition:all .3s ease;
 }
-
-#yesBtn{
-  background:var(--accent);
-  color:white;
-  box-shadow:0 10px 25px rgba(255,107,129,.4);
-}
-
-#noBtn{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.3);
-  color:white;
-  position:absolute;
-}
-
-.counter{
-  margin-top:10px;
-  font-size:14px;
-  opacity:.8;
-}
-
-.heart{
-  position:absolute;
-  font-size:28px;
-  animation:float 4s linear forwards;
-  cursor:pointer;
-}
-
-@keyframes float{
-  from{bottom:-60px;opacity:0}
-  to{bottom:110%;opacity:1}
+button:hover{transform:scale(1.05);}
+#noBtn{position:relative;}
+.heart{font-size:60px;cursor:pointer;transition:transform .2s;}
+.fade-in{animation:fade 1.2s ease forwards;}
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
 }
 </style>
 </head>
@@ -88,22 +46,21 @@ button{
 <div id="page1" class="screen active">
   <h1>Sheena, will you be my Valentine? 🌹</h1>
   <div>
-    <button id="yesBtn">Yes, obviously ❤️</button>
+    <button onclick="startExperience()">Yes ❤️</button>
     <button id="noBtn">No</button>
   </div>
 </div>
 
-<!-- GAME PAGE -->
-<div id="gamePage" class="screen">
-  <h1>Tap 7 hearts to unlock something 💖</h1>
-  <div class="counter">Hearts tapped: <span id="score">0</span>/7</div>
+<!-- PAGE 2 -->
+<div id="page2" class="screen">
+  <h1 class="fade-in">Tap my heart 4 times 💖</h1>
+  <div class="heart" onclick="tapHeart()">❤️</div>
 </div>
 
-<!-- FINAL PAGE -->
-<div id="finalPage" class="screen">
-  <h1>Sheena ❤️</h1>
-
-  <p>
+<!-- PAGE 3 -->
+<div id="page3" class="screen">
+  <h1 class="fade-in">Sheena ❤️</h1>
+  <p class="fade-in">
     4 years ago, our story quietly began.  
     And in just 2 months, we begin the next chapter — as husband and wife.
     <br><br>
@@ -114,68 +71,56 @@ button{
     I want every Valentine’s Day for the rest of my life.
   </p>
 
-  <audio id="loveSong" loop>
-    <source src="PASTE_YOUR_MP3_LINK_HERE" type="audio/mpeg">
+  <p style="margin-top:10px;">
+    Here's something from my heart. I hope it reaches yours. I love you.
+  </p>
+
+  <audio id="loveSong">
+    <source src="https://raw.githubusercontent.com/aryansin08/Valentine/main/Dil%20Diyan%20Gallan.mp4" type="audio/mp4">
   </audio>
 
-  <button onclick="document.getElementById('loveSong').play()">
-    Play our song 🎵
+  <button onclick="playSong()">
+    Listen to what my heart says for you 🎵
   </button>
 </div>
 
 <script>
-const yesBtn=document.getElementById('yesBtn');
 const noBtn=document.getElementById('noBtn');
-
 let scale=1;
-noBtn.addEventListener('click',moveNo);
-noBtn.addEventListener('touchstart',moveNo);
 
-function moveNo(){
-  const x=Math.random()*(window.innerWidth-100);
-  const y=Math.random()*(window.innerHeight-60);
-  noBtn.style.left=x+'px';
-  noBtn.style.top=y+'px';
+noBtn.addEventListener('click',()=>{
   scale-=0.1;
   noBtn.style.transform=`scale(${scale})`;
-  if(scale<0.3) noBtn.style.display='none';
+  noBtn.style.position='absolute';
+  noBtn.style.top=Math.random()*80+'%';
+  noBtn.style.left=Math.random()*80+'%';
+  if(scale<=0.2){ noBtn.style.display='none'; }
+});
+
+function startExperience(){
+  // required user interaction to allow audio later
+  document.getElementById('page1').classList.remove('active');
+  document.getElementById('page2').classList.add('active');
 }
 
-yesBtn.addEventListener('click',startGame);
-
-let score=0,interval;
-
-function startGame(){
-  show('gamePage');
-  interval=setInterval(spawnHeart,700);
-}
-
-function spawnHeart(){
-  if(score>=7){
-    clearInterval(interval);
-    show('finalPage');
-    document.getElementById('loveSong').play();
-    return;
+let taps=0;
+function tapHeart(){
+  taps++;
+  if(taps>=4){
+    document.getElementById('page2').classList.remove('active');
+    document.getElementById('page3').classList.add('active');
+    autoPlaySong();
   }
-
-  const heart=document.createElement('div');
-  heart.className='heart';
-  heart.innerHTML='💖';
-  heart.style.left=Math.random()*90+'vw';
-
-  heart.onclick=()=>{
-    heart.remove();
-    score++;
-    document.getElementById('score').innerText=score;
-  };
-
-  document.getElementById('gamePage').appendChild(heart);
-  setTimeout(()=>heart.remove(),4000);
 }
 
-function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function autoPlaySong(){
+  const song=document.getElementById('loveSong');
+  song.volume=0.7;
+  song.play();
+}
+
+function playSong(){
+  document.getElementById('loveSong').play();
 }
 </script>
 
