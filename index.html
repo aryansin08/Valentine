@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For Sheena ❤️</title>
 
@@ -15,30 +15,8 @@ body{
   text-align:center;
 }
 
-/* SLIDESHOW */
-.slideshow{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  z-index:-1;
-}
-.slideshow img{
-  position:absolute;
-  width:100%;height:100%;
-  object-fit:cover;
-  opacity:0;
-  animation:fade 67s infinite;
-}
-@keyframes fade{
-  0%{opacity:0}
-  2%{opacity:1}
-  8.5%{opacity:1}
-  10.5%{opacity:0}
-  100%{opacity:0}
-}
-
-/* PAGES */
-.page{
+/* SCREENS */
+.screen{
   position:absolute;
   width:100%;
   height:100%;
@@ -46,8 +24,17 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  padding:20px;
+  padding:24px;
   box-sizing:border-box;
+}
+
+/* FADE TEXT */
+.fade{
+  animation:fadeIn 2s ease forwards;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px)}
+  to{opacity:1; transform:translateY(0)}
 }
 
 /* HEARTS */
@@ -75,6 +62,7 @@ button{
 }
 .yes{background:#ff4d6d;color:white}
 .no{background:white;color:#0b1c2d;position:absolute}
+.music-btn{background:#ff4d6d;color:white}
 
 input{
   padding:10px;
@@ -86,22 +74,82 @@ input{
 
 .hidden{display:none}
 
-a.music-btn{
-  margin-top:30px;
-  padding:14px 26px;
-  background:#ff4d6d;
-  border-radius:30px;
-  color:white;
-  text-decoration:none;
-  font-size:18px;
+/* PHOTO MONTAGE */
+#photoMontage{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  z-index:9999;
+  display:none;
+  overflow:hidden;
+}
+
+#photoMontage img{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  animation:fadeMontage 67s linear forwards;
+}
+
+@keyframes fadeMontage{
+  0%{opacity:0}
+  2%{opacity:1}
+  8.5%{opacity:1}
+  10.5%{opacity:0}
+  100%{opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SLIDESHOW -->
-<div class="slideshow">
+<audio id="song" src="Dil Diyan Gallan.mp4"></audio>
+
+<!-- PAGE 1 -->
+<div id="page1" class="screen">
+  <h1 class="fade">Hi Sheena ❤️</h1>
+  <p class="fade">Tap the floating hearts to unlock something special</p>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="screen hidden">
+  <h2 class="fade">It's been 4 beautiful years for us ✨</h2>
+  <h1 class="fade">Will you be my Valentine?</h1>
+  <button class="yes" onclick="yesClicked()">Yes</button>
+  <button id="noBtn" class="no">No</button>
+  <input id="noInput" placeholder="Type your answer here"/>
+</div>
+
+<!-- PAGE 3 (YOUR ORIGINAL TEXT) -->
+<div id="page3" class="screen hidden">
+  <h1 class="fade">Sheena ❤️</h1>
+
+  <p class="fade">
+    4 years ago, our story quietly began.  
+    And in just 2 months, we begin the next chapter — as husband and wife.
+    <br><br>
+    Through every laugh, every silly moment, every long talk,  
+    you became my safest place, my favourite person, my home.
+    <br><br>
+    I don’t just want this Valentine’s Day with you…  
+    I want every Valentine’s Day for the rest of my life.
+  </p>
+
+  <p>
+    Here's something from my heart. I hope it reaches yours. I love you.
+  </p>
+
+  <button class="music-btn" onclick="playSong()">
+    Listen to what my heart says for you
+  </button>
+</div>
+
+<!-- PHOTO MONTAGE -->
+<div id="photoMontage">
   <img src="img1.jpeg" style="animation-delay:0s">
   <img src="img2.jpeg" style="animation-delay:6.7s">
   <img src="img3.jpeg" style="animation-delay:13.4s">
@@ -112,30 +160,6 @@ a.music-btn{
   <img src="img8.jpeg" style="animation-delay:46.9s">
   <img src="img9.jpeg" style="animation-delay:53.6s">
   <img src="img10.jpeg" style="animation-delay:60.3s">
-</div>
-
-<audio id="song" src="Dil Diyan Gallan.mp4"></audio>
-
-<!-- PAGE 1 -->
-<div id="page1" class="page">
-  <h1>Hi Sheena ❤️</h1>
-  <p>Tap the floating hearts to unlock something special</p>
-</div>
-
-<!-- PAGE 2 -->
-<div id="page2" class="page hidden">
-  <h2>It's been 4 beautiful years for us ✨</h2>
-  <h1>Will you be my Valentine?</h1>
-  <button class="yes" onclick="yesClicked()">Yes</button>
-  <button id="noBtn" class="no">No</button>
-  <input id="noInput" placeholder="Type your answer here"/>
-</div>
-
-<!-- PAGE 3 -->
-<div id="page3" class="page hidden">
-  <h1>I knew it 😌❤️</h1>
-  <p>Here's something from my heart. I hope it reaches yours. I love you.</p>
-  <a class="music-btn" href="#" onclick="playSong()">Listen to what my heart says for you</a>
 </div>
 
 <script>
@@ -151,32 +175,29 @@ function createHeart(){
     taps++;
     h.remove();
     if(taps==4){
-      document.getElementById('page1').classList.add('hidden');
-      document.getElementById('page2').classList.remove('hidden');
-      document.getElementById('song').play();
+      page1.classList.add('hidden');
+      page2.classList.remove('hidden');
     }
   };
   document.body.appendChild(h);
 }
 for(let i=0;i<8;i++) createHeart();
 
-/* NO BUTTON RUNS */
-const noBtn=document.getElementById('noBtn');
+/* NO BUTTON */
 let scale=1;
-noBtn.addEventListener('click',()=>{
+noBtn.onclick=()=>{
   noBtn.style.left=Math.random()*80+'%';
   noBtn.style.top=Math.random()*80+'%';
   scale-=0.1;
   noBtn.style.transform=`scale(${scale})`;
-});
+};
 
-/* TYPE NO POPUP */
-const input=document.getElementById('noInput');
+/* TYPE NO */
 let noCount=0;
-input.addEventListener('input',()=>{
-  if(input.value.toLowerCase().includes('no')){
+noInput.addEventListener('input',()=>{
+  if(noInput.value.toLowerCase().includes('no')){
     noCount++;
-    input.value='';
+    noInput.value='';
     if(noCount>=3){
       alert('Nice try 😜 But yes is the only option for you now ❤️');
     }
@@ -185,13 +206,20 @@ input.addEventListener('input',()=>{
 
 /* YES */
 function yesClicked(){
-  document.getElementById('page2').classList.add('hidden');
-  document.getElementById('page3').classList.remove('hidden');
+  page2.classList.add('hidden');
+  page3.classList.remove('hidden');
 }
 
-/* PLAY SONG */
+/* PLAY SONG + MONTAGE */
 function playSong(){
-  document.getElementById('song').play();
+  const song=document.getElementById('song');
+  const montage=document.getElementById('photoMontage');
+  montage.style.display='block';
+  song.play();
+
+  song.onended=()=>{
+    montage.style.display='none';
+  };
 }
 </script>
 
